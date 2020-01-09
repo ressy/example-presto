@@ -3,7 +3,10 @@ NUM_SPOTS = 25000
 VPRIMERS = Greiff2014_VPrimers.fasta
 CPRIMERS = Greiff2014_CPrimers.fasta
 
-all: parseheaders
+all: all_filt
+
+clean:
+	rm -f *.log MP*.tab M1_*.tab M1*.fastq
 
 $(ERR)_1.fastq $(ERR)_2.fastq:
 	fastq-dump --split-files -X $(NUM_SPOTS) $(ERR)
@@ -57,12 +60,14 @@ M1-REV_primers-pass.fastq: M1-FWD_primers-pass.fastq
 MPC.log: M1-REV_primers-pass.fastq
 
 # MPV_table.tab	Table of the V-segment MaskPrimers log
-MPV_table.tab MPC_table.tab: MPV.log MPC.log
+MPV_table.tab: MPV.log MPC.log
 	ParseLog.py -l $^ -f ID PRIMER ERROR
 # MPC_table.tab	Table of the C-region MaskPrimers log
 MPC_table.tab: MPV_table.tab
 
 ### Deduplication and Filtering
+
+all_filt: M1_atleast-2_headers.tab
 
 # Total unique sequences
 # "First, the set of unique sequences is identified using the CollapseSeq tool,
@@ -80,16 +85,13 @@ M1_collapse-unique.fastq: M1-REV_primers-pass.fastq
 # sequence with at least two representative reads by using the group subcommand
 # of SplitSeq on the count field (-f DUPCOUNT) and specifying a numeric
 # threshold (--num 2)"
-M1_atleast-2.fastq M1_atleast-2_headers.tab: M1_collapse-unique.fastq
+M1_atleast-2.fastq: M1_collapse-unique.fastq
 	SplitSeq.py group -s $^ -f DUPCOUNT --num 2 --outname M1
+
 # Annotation table of the atleast-2 file
-M1_atleast-2_headers.tab: M1_atleast-2.fastq
-
-### Final Repetoire
-
-# Finally, the annotations, including duplicate read count (DUPCOUNT), isotype
+# "Finally, the annotations, including duplicate read count (DUPCOUNT), isotype
 # (CPRIMER) and V-segment primer (VPRIMER), of the final repertoire are then
 # extracted from the SplitSeq output into a tab-delimited file using the table
-# subcommand of ParseHeaders:
-parseheaders: M1_atleast-2.fastq
+# subcommand of ParseHeaders"
+M1_atleast-2_headers.tab: M1_atleast-2.fastq
 	ParseHeaders.py table -s $^ -f ID DUPCOUNT CPRIMER VPRIMER
