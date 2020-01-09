@@ -1,0 +1,32 @@
+name: example-presto
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # From https://presto.readthedocs.io/en/stable/install.html#installation :
+  #
+  #  * Python 3.4.0
+  #  * setuptools 2.0
+  #  * NumPy 1.8
+  #  * SciPy 0.14
+  #  * pandas 0.15
+  #  * Biopython 1.65
+  #  * AlignSets requires MUSCLE v3.8
+  #  * ClusterSets USEARCH v7.0, vsearch v2.3.2, or CD-HIT v4.6.8
+  #  * AssemblePairs-reference requires USEARCH v7.0 or BLAST+ 2.5
+  # 
+  # As per https://bitbucket.org/kleinstein/presto/src/default/requirements.txt :
+  #
+  #  *  numpy>=1.8
+  #  *  scipy>=0.14
+  #  *  pandas>=0.15
+  #  *  biopython>=1.65
+  - sra-tools
+  - pip
+  - numpy>=1.8
+  - scipy>=0.14
+  - pandas>=0.15
+  - biopython>=1.65
+  - pip:
+    - presto
