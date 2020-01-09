@@ -1,6 +1,9 @@
 ERR = ERR346600
 NUM_SPOTS = 25000
-PRIMERS = Greiff2014_VPrimers.fasta
+VPRIMERS = Greiff2014_VPrimers.fasta
+CPRIMERS = Greiff2014_CPrimers.fasta
+
+all: parseheaders
 
 $(ERR)_1.fastq $(ERR)_2.fastq:
 	fastq-dump --split-files -X $(NUM_SPOTS) $(ERR)
@@ -8,14 +11,16 @@ $(ERR)_2.fastq: $(ERR)_1.fastq
 
 ### Paired-end Assembly
 
+all_assembly: AP_table.tab
+
 # "During assembly we have defined read 2 (V-region) as the head of the sequence
 # (-1) and read 1 as the tail of the sequence (-2). The --coord argument
 # defines the format of the sequence header so that AssemblePairs can properly
 # identify mate-pairs; in this case, we use --coord sra as our headers are in
 # the SRA/ENA format."
-M1_assemble-pass.fastq AP.log: $(ERR)_1.fastq $(ERR)_2.fastq
+M1_assemble-pass.fastq: $(ERR)_1.fastq $(ERR)_2.fastq
 	AssemblePairs.py align -1 $(word 2,$^) -2 $(word 1,$^) \
-	--coord sra --rc tail --outname M1 --log $(word 2,$@)
+	--coord sra --rc tail --outname M1 --log AP.log
 AP.log: M1_assemble-pass.fastq
 
 # Table of the AssemblePairs log
@@ -24,10 +29,12 @@ AP_table.tab: AP.log
 
 ### Quality Control
 
+all_qc: MPC_table.tab MPV_table.tab
+
 # "In this example, reads with mean Phred quality scores less than 20 (-q 20)
 # are removed"
-M1_quality-pass.fastq FS.log: M1_assemble-pass.fastq
-	FilterSeq.py quality -s $^ -q 20 --outname M1 --log $(word 2,$@)
+M1_quality-pass.fastq: M1_assemble-pass.fastq
+	FilterSeq.py quality -s $^ -q 20 --outname M1 --log FS.log
 FS.log: M1_quality-pass.fastq
 
 # Table of the FilterSeq log
@@ -39,14 +46,14 @@ FS_table.tab: FS.log
 # "The V-segment primer has been masked (replaced by Ns) using the --mode mask
 # argument to preserve the V(D)J length, while the C-region primer has been
 # removed from the sequence using the --mode cut argument."
-M1-FWD_primers-pass.fastq MPV.log: M1_quality-pass.fastq
-	MaskPrimers.py score -s $^ -p $(PRIMERS) \
-	    --start 4 --mode mask --pf VPRIMER --outname M1-FWD --log $(word 2,$@)
+M1-FWD_primers-pass.fastq: M1_quality-pass.fastq
+	MaskPrimers.py score -s $^ -p $(VPRIMERS) \
+	    --start 4 --mode mask --pf VPRIMER --outname M1-FWD --log MPV.log
 MPV.log: M1-FWD_primers-pass.fastq
 
-M1-REV_primers-pass.fastq MPC.log: M1-FWD_primers-pass.fastq
-	MaskPrimers.py score -s $^ -p $(PRIMERS) \
-	    --start 4 --mode cut --revpr --pf CPRIMER --outname M1-REV --log $(word 2,$@)
+M1-REV_primers-pass.fastq: M1-FWD_primers-pass.fastq
+	MaskPrimers.py score -s $^ -p $(CPRIMERS) \
+	    --start 4 --mode cut --revpr --pf CPRIMER --outname M1-REV --log MPC.log
 MPC.log: M1-REV_primers-pass.fastq
 
 # MPV_table.tab	Table of the V-segment MaskPrimers log
