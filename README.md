@@ -133,6 +133,12 @@ primer masked, the C-region primer trimmed, and both 4-nucleotide ends trimmed.
     @ERR346600.14327|CPRIMER=IGHG|VPRIMER=VH-FW1,VH-FW10,VH-FW11,VH-FW12,VH-FW13,VH-FW15,VH-FW2,VH-FW3,VH-FW4,VH-FW5,VH-FW8,VH-FW9|DUPCOUNT=179
     NNNNNNNNNNNNNNNNNNNNTGGGGGAGGCTTAGTGAAGCCTGGAGGGTCCCTGAAACTCTCCTGTGCAGCCTCTGGATTCACTTTCAGTGACTATTATATATATTGGCTTCGCCAGACTCCGGAAAAGAGGCTGGAGTGGGTCGCAACCATAAGTGATGGTGGTAATTACTCCTACTATCCAGACAGTGTGAAGGGGCGATTCACCATCTCCAGAGACAATGCCAAGAATAACCTGTACCTGCAAATGAGTAGTCTGAAGTCTGAGGACACAGCCATGTATTACTGTGCGAGGTCGAGAATGAGGTATGGCGCTATGGACTACTGGGGTCAAGGAACCTCAGTCACCGTCTTCTCAGCCAAAACGACAC
 
+Here sequences unique once primers are excluded are combined, and all the
+contributing primers are noted in the sequence ID.  There seems to be an
+implicit assumption that no barcoding is included in the entire process, since
+the primers are all considered together and the only mention of barcoding is in
+other workflows that use fixed-length UMI sequences.
+
 `M1_atleast-2.fastq`: as in `M1_collapse-unique.fastq` since `DUPCOUNT=179`.
 
 `M1_atleast-2_headers.tab`:
