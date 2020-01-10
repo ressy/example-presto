@@ -3,10 +3,13 @@ NUM_SPOTS = 25000
 VPRIMERS = Greiff2014_VPrimers.fasta
 CPRIMERS = Greiff2014_CPrimers.fasta
 
-all: all_filt
+all: all_filt all_qc all_assembly
 
 clean:
 	rm -f *.log MP*.tab M1_*.tab M1*.fastq
+
+check:
+	md5sum -c MANIFEST
 
 $(ERR)_1.fastq $(ERR)_2.fastq:
 	fastq-dump --split-files -X $(NUM_SPOTS) $(ERR)

@@ -7,7 +7,10 @@ heads toward J, whereas the forward read starts in the constant region and
 heads toward V.  The rules in `Makefile` do essentially the same thing as their
 example shell script in the [example tarball].
 
-    conda env update --file environment.yml && conda activate example-presto && make
+    conda env update --file environment.yml
+    conda activate example-presto
+    make
+    make check
 
 [pRESTO example]: https://presto.readthedocs.io/en/stable/workflows/Greiff2014_Workflow.html
 [ERR346600]: https://www.ncbi.nlm.nih.gov/sra/ERR346600
