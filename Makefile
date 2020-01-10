@@ -35,7 +35,7 @@ AP_table.tab: AP.log
 
 ### Quality Control
 
-all_qc: MPC_table.tab MPV_table.tab
+all_qc: MPC_table.tab MPV_table.tab FS_table.tab
 
 # "In this example, reads with mean Phred quality scores less than 20 (-q 20)
 # are removed"
