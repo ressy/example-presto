@@ -1,4 +1,3 @@
-d3606bcb8d00ace9ecbc5a97ee814927  AP_table.tab
 10059f0adaaafc2d1f1a77ffb31be71f  ERR346600_1.fastq
 1d1c64a7ea10b1be667f31737b0465a2  ERR346600_2.fastq
 aa005de46a4559d142bf7c57ea134126  M1_assemble-pass.fastq
@@ -9,5 +8,3 @@ aa005de46a4559d142bf7c57ea134126  M1_assemble-pass.fastq
 71caad5fbaec00dd8f634a1a58c9f1df  M1_quality-pass.fastq
 5ba71112ba39880542537295a27b7fc4  M1-REV_primers-pass.fastq
 a01133769876e0be88f309dbe09b99c3  M1_under-2.fastq
-ab4c17e54b2b25ddcab545689bb17627  MPC_table.tab
-817330b60c603470528736e49a14805f  MPV_table.tab
