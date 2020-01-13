@@ -6,10 +6,22 @@ CPRIMERS = Greiff2014_CPrimers.fasta
 all: all_filt all_qc all_assembly
 
 clean:
-	rm -f *.log MP*.tab M1_*.tab M1*.fastq
+	rm -f *.log MPC_table.tab MPV_table.tab AP_table.tab FS_table.tab M1_*.tab M1*.fastq
 
-check:
-	md5sum -c MANIFEST
+CHECKS = $(addsuffix .fastq.sorted,\
+	 $(addprefix M1_,assemble-pass atleast-2 under-2 collapse-unique quality-pass) \
+	 $(addprefix M1-,FWD_primers-pass REV_primers-pass)) \
+	 M1_atleast-2_headers.tab.sorted
+
+check: $(CHECKS)
+	md5sum -c MANIFEST && rm -f *.fastq.sorted *.tab.sorted
+
+# https://edwards.sdsu.edu/research/sorting-fastq-files-by-their-sequence-identifiers/
+%.fastq.sorted : %.fastq
+	paste - - - - < $^ | sort -k1,1 -t " " | tr "\t" "\n" > $@
+
+%.tab.sorted: %.tab
+	sort $^ -o $@ -k 1,1 -r
 
 $(ERR)_1.fastq $(ERR)_2.fastq:
 	fastq-dump --split-files -X $(NUM_SPOTS) $(ERR)
