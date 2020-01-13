@@ -6,7 +6,7 @@ CPRIMERS = Greiff2014_CPrimers.fasta
 all: all_filt all_qc all_assembly
 
 clean:
-	rm -f *.log MPC_table.tab MPV_table.tab AP_table.tab FS_table.tab M1_*.tab M1*.fastq
+	rm -f *.log MPC_table.tab MPV_table.tab AP_table.tab FS_table.tab M1_*.tab M1*.fastq *.sorted
 
 CHECKS = $(addsuffix .fastq.sorted,\
 	 $(addprefix M1_,assemble-pass atleast-2 under-2 collapse-unique quality-pass) \
