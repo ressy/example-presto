@@ -12,6 +12,14 @@ example shell script in the [example tarball].
     make
     make check
 
+## Note on Reproducibility
+
+You won't necessarily get the exact same sequence order or representative
+sequence for duplicates between runs with the same input files.  Several of the
+scripts use multithreading by default, so I suspect `--nproc 1` in those cases
+might make the output completely deterministic, but I haven't tested it.  The
+actual sequence content is identical either way, of course.
+
 ## Example Read Pair
 
 Following `ERR346600.14327` along the pipeline, from raw read pair to
