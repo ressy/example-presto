@@ -9,19 +9,21 @@ clean:
 	rm -f *.log MPC_table.tab MPV_table.tab AP_table.tab FS_table.tab M1_*.tab M1*.fastq *.sorted
 
 CHECKS = $(addsuffix .fastq.sorted,\
-	 $(addprefix M1_,assemble-pass atleast-2 under-2 collapse-unique quality-pass) \
-	 $(addprefix M1-,FWD_primers-pass REV_primers-pass)) \
-	 M1_atleast-2_headers.tab.sorted
+		$(addprefix M1_,assemble-pass quality-pass) \
+		$(addprefix M1-,FWD_primers-pass REV_primers-pass)) \
+	$(addsuffix .seqs.sorted,$(addprefix M1_,atleast-2 under-2 collapse-unique))
 
+foo:
+	echo $(CHECKS)
 check: $(CHECKS)
-	md5sum -c MANIFEST && rm -f *.fastq.sorted *.tab.sorted
+	md5sum -c MANIFEST && rm -f *.sorted
 
 # https://edwards.sdsu.edu/research/sorting-fastq-files-by-their-sequence-identifiers/
 %.fastq.sorted : %.fastq
 	paste - - - - < $^ | sort -k1,1 -t " " | tr "\t" "\n" > $@
 
-%.tab.sorted: %.tab
-	sort $^ -o $@ -k 1,1 -r
+%.seqs.sorted : %.fastq
+	sed -n 2~4p < $^ | sort > $@
 
 $(ERR)_1.fastq $(ERR)_2.fastq:
 	fastq-dump --split-files -X $(NUM_SPOTS) $(ERR)

@@ -1,10 +1,9 @@
 10059f0adaaafc2d1f1a77ffb31be71f  ERR346600_1.fastq
 1d1c64a7ea10b1be667f31737b0465a2  ERR346600_2.fastq
 695f0223fdd23738f80036e3b7d8dad0  M1_assemble-pass.fastq.sorted
-76d5e6e95f7909e793bb434452f58c26  M1_atleast-2.fastq.sorted
-fd4cd3efb2a8a4027641c4982570e928  M1_atleast-2_headers.tab.sorted
-35dc9257392a5745ffaff4e1b5905b16  M1_collapse-unique.fastq.sorted
+57e19092bac6253d77b9d26421107089  M1_atleast-2.seqs.sorted
+8e85468c931f6826ae40ab8bb4b8928d  M1_collapse-unique.seqs.sorted
 9308b4faef94316a79ff33e7373cfa4d  M1-FWD_primers-pass.fastq.sorted
 78380b2345a56c186635fa751702a936  M1_quality-pass.fastq.sorted
 9facc5d27be242a2dc18713bece50984  M1-REV_primers-pass.fastq.sorted
-652fc359681d807c2f59802c17d297fd  M1_under-2.fastq.sorted
+ac8b4905ddc897b6f83720343d7b34cb  M1_under-2.seqs.sorted
